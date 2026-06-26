@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FIRSTLIGHT ACADEMY · Player Database</title>
+    <style>
+        /* ───────────── RESET & BASE ───────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --primary: #0b1a33;
+            --primary-light: #1a3355;
+            --accent: #f0b429;
+            --accent-hover: #d9a020;
+            --bg: #f4f6fa;
+            --card: #ffffff;
+            --text: #1e2a3a;
+            --text-muted: #5a6a7a;
+            --border: #dce1e8;
+            --radius: 12px;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            --transition: 0.25s ease;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            padding: 24px 20px 60px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .app {
+            max-width: 1300px;
+            width: 100%;
+        }
+
+        /* ───────────── TYPOGRAPHY ───────────── */
+        h1,
+        h2,
+        h3 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        h1 {
+            font-size: 1.9rem;
+        }
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.25rem;
+        }
+        h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* ───────────── HEADER ───────────── */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px 24px;
+            background: var(--card);
+            padding: 18px 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 28px;
+            border: 1px solid var(--border);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .logo {
+            width: 44px;
+            height: 44px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
+        }
+        .header-left h1 {
+            font-size: 1.5rem;
+        }
+        .header-left h1 span {
+            color: var(--accent);
+        }
+        .header-sub {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .header-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* ───────────── BUTTONS ───────────── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background var(--transition), transform 0.15s, box-shadow var(--transition);
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        .btn:active {
+            transform: translateY(0px);
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .btn-primary:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-light);
+        }
+        .btn-accent {
+            background: var(--accent);
+            color: #1e2a3a;
+            border-color: var(--accent);
+        }
+        .btn-accent:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+        }
+        .btn-danger {
+            background: #e74c3c;
+            color: #fff;
+            border-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+            border-color: #c0392b;
+        }
+        .btn-outline {
+            background: transparent;
+        }
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 0.8rem;
+        }
+        .btn-icon {
+            padding: 6px 10px;
+            font-size: 1rem;
+        }
+
+        /* ───────────── STATS ROW ───────────── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: var(--card);
+            padding: 14px 18px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .stat-card .num {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary);
+        }
+        .stat-card .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* ───────────── TOOLBAR ───────────── */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px 16px;
+            background: var(--card);
+            padding: 14px 22px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+        .toolbar .search-wrap {
+            flex: 1 1 220px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            padding: 4px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: border var(--transition);
+        }
+        .toolbar .search-wrap:focus-within {
+            border-color: var(--primary);
+        }
+        .toolbar .search-wrap input {
+            border: none;
+            background: transparent;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            width: 100%;
+            outline: none;
+            color: var(--text);
+        }
+        .toolbar .search-wrap input::placeholder {
+            color: var(--text-muted);
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-group select {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            font-size: 0.85rem;
+            color: var(--text);
+            cursor: pointer;
+            outline: none;
+        }
+        .filter-group select:focus {
+            border-color: var(--primary);
+        }
+        .toolbar .btn-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        /* ───────────── TABLE ───────────── */
+        .table-wrap {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .table-scroll {
+            overflow-x: auto;
+            padding: 0 4px 4px 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 640px;
+        }
+        thead {
+            background: var(--bg);
+            border-bottom: 2px solid var(--border);
+        }
+        th {
+            text-align: left;
+            padding: 14px 16px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:hover td {
+            background: #fafbfc;
+        }
+        .player-name {
+            font-weight: 600;
+        }
+        .player-position {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #eef2f7;
+            color: var(--text-muted);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .actions-cell {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        .empty-state p {
+            font-size: 1rem;
+        }
+
+        /* ───────────── MODAL ───────────── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.2s ease;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: var(--card);
+            max-width: 560px;
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            padding: 28px 32px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.25s ease;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h2 {
+            margin: 0;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color var(--transition);
+            line-height: 1;
+        }
+        .modal-close:hover {
+            color: var(--text);
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: var(--text-muted);
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: var(--bg);
+            transition: border var(--transition);
+            color: var(--text);
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ───────────── TOAST ───────────── */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 360px;
+            width: 100%;
+        }
+        .toast {
+            background: var(--primary);
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast-success {
+            background: #1e7e34;
+        }
+        .toast-error {
+            background: #c0392b;
+        }
+        .toast-info {
+            background: var(--primary);
+        }
+
+        /* ───────────── ANIMATIONS ───────────── */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ───────────── RESPONSIVE ───────────── */
+        @media (max-width: 700px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .header-left h1 {
+                font-size: 1.2rem;
+            }
+            .header-actions {
+                justify-content: stretch;
+            }
+            .header-actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-group {
+                justify-content: stretch;
+            }
+            .filter-group select {
+                flex: 1;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .modal {
+                padding: 20px 18px;
+            }
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+            .actions-cell {
+                flex-direction: column;
+            }
+            .actions-cell .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        @media (max-width: 450px) {
+            body {
+                padding: 12px 10px 40px;
+            }
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .stat-card .num {
+                font-size: 1.5rem;
+            }
+            .stat-card {
+                padding: 10px 12px;
+            }
+            .header {
+                padding: 14px 16px;
+            }
+            .toolbar {
+                padding: 12px 14px;
+            }
+        }
+
+        /* ───────────── SCROLLBAR ───────────── */
+        .table-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+        .table-scroll::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+        .table-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app" id="app">
+
+        <!-- ─── HEADER ─── -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">FL</div>
+                <div>
+                    <h1>FIRSTLIGHT <span>ACADEMY</span></h1>
+                    <div class="header-sub">Player Database · v1.0</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-accent" id="btnAddPlayer">＋ Add Player</button>
+                <button class="btn btn-outline" id="btnExport">⬇ Export</button>
+                <button class="btn btn-outline" id="btnImport">⬆ Import</button>
+                <input type="file" id="fileInput" accept=".json" style="display:none" />
+                <button class="btn btn-outline btn-sm" id="btnReset" style="color:#e74c3c;">⟳ Reset</button>
+            </div>
+        </header>
+
+        <!-- ─── STATS ─── -->
+        <section class="stats-row" id="statsRow">
+            <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">Total Players</div></div>
+            <div class="stat-card"><div class="num" id="statActive">0</div><div class="label">Active</div></div>
+            <div class="stat-card"><div class="num" id="statPositions">0</div><div class="label">Positions</div></div>
+            <div class="stat-card"><div class="num" id="statAvgAge">—</div><div class="label">Avg. Age</div></div>
+        </section>
+
+        <!-- ─── TOOLBAR ─── -->
+        <div class="toolbar">
+            <div class="search-wrap">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="Search name, position, number…" />
+            </div>
+            <div class="filter-group">
+                <select id="filterPosition">
+                    <option value="all">All Positions</option>
+                    <option value="Goalkeeper">Goalkeeper</option>
+                    <option value="Defender">Defender</option>
+                    <option value="Midfielder">Midfielder</option>
+                    <option value="Forward">Forward</option>
+                </select>
+                <select id="filterStatus">
+                    <option value="all">All Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                <button class="btn btn-sm btn-outline" id="btnClearFilters">Clear</button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-sm btn-outline" id="btnSortName">Sort A–Z</button>
+            </div>
+        </div>
+
+        <!-- ─── TABLE ─── -->
+        <div class="table-wrap">
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Jersey</th>
+                            <th>Age</th>
+                            <th>Height</th>
+                            <th>Weight</th>
+                            <th>Goals</th>
+                            <th>Assists</th>
+                            <th>Apps</th>
+                            <th>Status</th>
+                            <th style="min-width:120px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- dynamic -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ─── MODAL ─── -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add Player</h2>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+                <form id="playerForm" autocomplete="off">
+                    <input type="hidden" id="editId" value="" />
+                    <div class="form-group">
+                        <label for="fName">Full Name *</label>
+                        <input type="text" id="fName" placeholder="e.g. Jamie Vardy" required />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fPosition">Position *</label>
+                            <select id="fPosition" required>
+                                <option value="">Select</option>
+                                <option value="Goalkeeper">Goalkeeper</option>
+                                <option value="Defender">Defender</option>
+                                <option value="Midfielder">Midfielder</option>
+                                <option value="Forward">Forward</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fJersey">Jersey # *</label>
+                            <input type="number" id="fJersey" placeholder="e.g. 9" min="0" max="99" required />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fAge">Age *</label>
+                            <input type="number" id="fAge" placeholder="e.g. 24" min="15" max="50" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="fHeight">Height (cm)</label>
+                            <input type="number" id="fHeight" placeholder="e.g. 178" min="140" max="220" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fWeight">Weight (kg)</label>
+                            <input type="number" id="fWeight" placeholder="e.g. 75" min="40" max="150" />
+                        </div>
+                        <div class="form-group">
+                            <label for="fStatus">Status</label>
+                            <select id="fStatus">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fGoals">Goals</label>
+                            <input type="number" id="fGoals" placeholder="0" min="0" value="0" />
+                        </div>
+                        <div class="form-group">
+                            <label for="fAssists">Assists</label>
+                            <input type="number" id="fAssists" placeholder="0" min="0" value="0" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fAppearances">Appearances</label>
+                        <input type="number" id="fAppearances" placeholder="0" min="0" value="0" />
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="modalCancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="modalSubmit">Save Player</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ─── TOAST CONTAINER ─── -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  DATA LAYER
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            const STORAGE_KEY = 'firstlight_players';
+            let players = [];
+            let nextId = 1;
+
+            // ─── Load / Save ────────────────────────────
+            function loadData() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (Array.isArray(parsed)) {
+                            players = parsed;
+                            // find max id
+                            let max = 0;
+                            players.forEach(p => { if (p.id > max) max = p.id; });
+                            nextId = max + 1;
+                            return;
+                        }
+                    }
+                } catch (_) { /* ignore */ }
+                // fallback: seed with demo data
+                seedDemoData();
+            }
+
+            function saveData() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(players));
+            }
+
+            function seedDemoData() {
+                players = [{
+                    id: 1,
+                    name: 'Marcus Thorne',
+                    position: 'Goalkeeper',
+                    jersey: 1,
+                    age: 28,
+                    height: 188,
+                    weight: 82,
+                    goals: 0,
+                    assists: 1,
+                    appearances: 47,
+                    status: 'Active'
+                }, {
+                    id: 2,
+                    name: 'Elena Rivas',
+                    position: 'Defender',
+                    jersey: 4,
+                    age: 24,
+                    height: 172,
+                    weight: 67,
+                    goals: 3,
+                    assists: 7,
+                    appearances: 52,
+                    status: 'Active'
+                }, {
+                    id: 3,
+                    name: 'Kofi Adjei',
+                    position: 'Midfielder',
+                    jersey: 8,
+                    age: 22,
+                    height: 180,
+                    weight: 74,
+                    goals: 12,
+                    assists: 14,
+                    appearances: 61,
+                    status: 'Active'
+                }, {
+                    id: 4,
+                    name: 'Sienna Blake',
+                    position: 'Forward',
+                    jersey: 9,
+                    age: 21,
+                    height: 165,
+                    weight: 60,
+                    goals: 22,
+                    assists: 9,
+                    appearances: 44,
+                    status: 'Active'
+                }, {
+                    id: 5,
+                    name: 'Dmitri Volkov',
+                    position: 'Defender',
+                    jersey: 5,
+                    age: 30,
+                    height: 185,
+                    weight: 80,
+                    goals: 2,
+                    assists: 3,
+                    appearances: 38,
+                    status: 'Inactive'
+                }, {
+                    id: 6,
+                    name: 'Aisha Chen',
+                    position: 'Midfielder',
+                    jersey: 10,
+                    age: 26,
+                    height: 170,
+                    weight: 65,
+                    goals: 8,
+                    assists: 18,
+                    appearances: 55,
+                    status: 'Active'
+                }, {
+                    id: 7,
+                    name: 'Liam O\'Connor',
+                    position: 'Forward',
+                    jersey: 7,
+                    age: 23,
+                    height: 178,
+                    weight: 72,
+                    goals: 16,
+                    assists: 6,
+                    appearances: 40,
+                    status: 'Active'
+                }];
+                nextId = 8;
+                saveData();
+            }
+
+            // ─── Helpers ─────────────────────────────────
+            function getPlayer(id) { return players.find(p => p.id === id); }
+
+            function addPlayer(data) {
+                const p = { id: nextId++, ...data };
+                players.push(p);
+                saveData();
+                return p;
+            }
+
+            function updatePlayer(id, data) {
+                const idx = players.findIndex(p => p.id === id);
+                if (idx === -1) return null;
+                players[idx] = { ...players[idx], ...data };
+                saveData();
+                return players[idx];
+            }
+
+            function deletePlayer(id) {
+                players = players.filter(p => p.id !== id);
+                saveData();
+            }
+
+            function resetDatabase() {
+                if (confirm('Delete all players and restore demo data?')) {
+                    seedDemoData();
+                    renderAll();
+                    toast('Database reset to demo data', 'info');
+                }
+            }
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  RENDER
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            let filteredPlayers = [];
+
+            function renderAll() {
+                applyFilters();
+                renderStats();
+                renderTable();
+            }
+
+            function applyFilters() {
+                const search = document.getElementById('searchInput').value.toLowerCase().trim();
+                const pos = document.getElementById('filterPosition').value;
+                const status = document.getElementById('filterStatus').value;
+
+                filteredPlayers = players.filter(p => {
+                    const matchSearch = p.name.toLowerCase().includes(search) ||
+                        p.position.toLowerCase().includes(search) ||
+                        String(p.jersey).includes(search);
+                    const matchPos = pos === 'all' || p.position === pos;
+                    const matchStatus = status === 'all' || p.status === status;
+                    return matchSearch && matchPos && matchStatus;
+                });
+            }
+
+            function renderStats() {
+                const total = players.length;
+                const active = players.filter(p => p.status === 'Active').length;
+                const positions = new Set(players.map(p => p.position)).size;
+                const ages = players.map(p => p.age).filter(a => a > 0);
+                const avgAge = ages.length ? (ages.reduce((s, a) => s + a, 0) / ages.length).toFixed(1) : '—';
+
+                document.getElementById('statTotal').textContent = total;
+                document.getElementById('statActive').textContent = active;
+                document.getElementById('statPositions').textContent = positions;
+                document.getElementById('statAvgAge').textContent = avgAge;
+            }
+
+            function renderTable() {
+                const tbody = document.getElementById('tableBody');
+                if (filteredPlayers.length === 0) {
+                    tbody.innerHTML = `
+                            <tr><td colspan="12">
+                                <div class="empty-state">
+                                    <div class="icon">⚽</div>
+                                    <p>${players.length === 0 ? 'No players yet. Add your first player!' : 'No players match your filters.'}</p>
+                                </div>
+                            </td></tr>
+                        `;
+                    return;
+                }
+
+                let html = '';
+                filteredPlayers.forEach((p, idx) => {
+                    const statusClass = p.status === 'Active' ? 'status-active' : 'status-inactive';
+                    html += `
+                            <tr>
+                                <td>${idx + 1}</td>
+                                <td class="player-name">${escHtml(p.name)}</td>
+                                <td><span class="player-position">${escHtml(p.position)}</span></td>
+                                <td>${p.jersey}</td>
+                                <td>${p.age}</td>
+                                <td>${p.height || '—'}</td>
+                                <td>${p.weight || '—'}</td>
+                                <td>${p.goals ?? 0}</td>
+                                <td>${p.assists ?? 0}</td>
+                                <td>${p.appearances ?? 0}</td>
+                                <td><span class="status-badge ${statusClass}">${escHtml(p.status)}</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button class="btn btn-sm btn-outline btn-edit" data-id="${p.id}">✎</button>
+                                        <button class="btn btn-sm btn-danger btn-delete" data-id="${p.id}">✕</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                });
+                tbody.innerHTML = html;
+
+                // attach event listeners to edit/delete buttons
+                tbody.querySelectorAll('.btn-edit').forEach(btn => {
+                    btn.addEventListener('click', () => openEditModal(Number(btn.dataset.id)));
+                });
+                tbody.querySelectorAll('.btn-delete').forEach(btn => {
+                    btn.addEventListener('click', () => handleDelete(Number(btn.dataset.id)));
+                });
+            }
+
+            function escHtml(str) {
+                if (!str) return '';
+                return String(str).replace(/[&<>"]/g, function(m) {
+                    if (m === '&') return '&amp;';
+                    if (m === '<') return '&lt;';
+                    if (m === '>') return '&gt;';
+                    if (m === '"') return '&quot;';
+                    return m;
+                });
+            }
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  MODAL
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            const overlay = document.getElementById('modalOverlay');
+            const form = document.getElementById('playerForm');
+            const modalTitle = document.getElementById('modalTitle');
+            const editIdInput = document.getElementById('editId');
+            const modalSubmit = document.getElementById('modalSubmit');
+
+            function openModal(title, data = null) {
+                modalTitle.textContent = title;
+                editIdInput.value = data ? data.id : '';
+                document.getElementById('fName').value = data ? data.name : '';
+                document.getElementById('fPosition').value = data ? data.position : '';
+                document.getElementById('fJersey').value = data ? data.jersey : '';
+                document.getElementById('fAge').value = data ? data.age : '';
+                document.getElementById('fHeight').value = data ? data.height : '';
+                document.getElementById('fWeight').value = data ? data.weight : '';
+                document.getElementById('fStatus').value = data ? data.status : 'Active';
+                document.getElementById('fGoals').value = data ? data.goals : 0;
+                document.getElementById('fAssists').value = data ? data.assists : 0;
+                document.getElementById('fAppearances').value = data ? data.appearances : 0;
+                modalSubmit.textContent = data ? 'Update Player' : 'Add Player';
+                overlay.classList.add('open');
+                document.getElementById('fName').focus();
+            }
+
+            function closeModal() {
+                overlay.classList.remove('open');
+                form.reset();
+                editIdInput.value = '';
+            }
+
+            function openAddModal() {
+                openModal('Add New Player');
+            }
+
+            function openEditModal(id) {
+                const p = getPlayer(id);
+                if (!p) { toast('Player not found', 'error'); return; }
+                openModal('Edit Player', p);
+            }
+
+            // ─── Form Submit ─────────────────────────────
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('fName').value.trim();
+                const position = document.getElementById('fPosition').value;
+                const jersey = parseInt(document.getElementById('fJersey').value);
+                const age = parseInt(document.getElementById('fAge').value);
+                const height = parseInt(document.getElementById('fHeight').value) || null;
+                const weight = parseInt(document.getElementById('fWeight').value) || null;
+                const status = document.getElementById('fStatus').value;
+                const goals = parseInt(document.getElementById('fGoals').value) || 0;
+                const assists = parseInt(document.getElementById('fAssists').value) || 0;
+                const appearances = parseInt(document.getElementById('fAppearances').value) || 0;
+                const editId = editIdInput.value ? parseInt(editIdInput.value) : null;
+
+                // validation
+                if (!name || name.length < 2) { toast('Name is required (min 2 chars)', 'error'); return; }
+                if (!position) { toast('Please select a position', 'error'); return; }
+                if (isNaN(jersey) || jersey < 0 || jersey > 99) { toast('Jersey must be 0–99', 'error'); return; }
+                if (isNaN(age) || age < 15 || age > 50) { toast('Age must be 15–50', 'error'); return; }
+
+                const data = { name, position, jersey, age, height, weight, status, goals, assists, appearances };
+
+                if (editId) {
+                    const updated = updatePlayer(editId, data);
+                    if (updated) {
+                        toast(`Updated ${updated.name}`, 'success');
+                        renderAll();
+                        closeModal();
+                    } else {
+                        toast('Error updating player', 'error');
+                    }
+                } else {
+                    const added = addPlayer(data);
+                    toast(`Added ${added.name}`, 'success');
+                    renderAll();
+                    closeModal();
+                }
+            });
+
+            // ─── Modal controls ──────────────────────────
+            document.getElementById('btnAddPlayer').addEventListener('click', openAddModal);
+            document.getElementById('modalClose').addEventListener('click', closeModal);
+            document.getElementById('modalCancel').addEventListener('click', closeModal);
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) closeModal();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  DELETE
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            function handleDelete(id) {
+                const p = getPlayer(id);
+                if (!p) return;
+                if (confirm(`Delete "${p.name}" permanently?`)) {
+                    deletePlayer(id);
+                    renderAll();
+                    toast(`Deleted ${p.name}`, 'info');
+                }
+            }
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  EXPORT / IMPORT
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            document.getElementById('btnExport').addEventListener('click', function() {
+                const data = JSON.stringify(players, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `firstlight_players_${new Date().toISOString().slice(0,10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                toast('Export successful', 'success');
+            });
+
+            document.getElementById('btnImport').addEventListener('click', function() {
+                document.getElementById('fileInput').click();
+            });
+
+            document.getElementById('fileInput').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    try {
+                        const data = JSON.parse(ev.target.result);
+                        if (!Array.isArray(data)) throw new Error('Invalid format');
+                        // validate minimal structure
+                        if (data.length && !data[0].name) throw new Error('Missing "name" field');
+                        if (confirm(`Import ${data.length} players? This will replace all current data.`)) {
+                            players = data;
+                            // recalc nextId
+                            let max = 0;
+                            players.forEach(p => { if (p.id > max) max = p.id; });
+                            nextId = max + 1;
+                            saveData();
+                            renderAll();
+                            toast(`Imported ${data.length} players`, 'success');
+                        }
+                    } catch (err) {
+                        toast('Import failed: ' + err.message, 'error');
+                    }
+                };
+                reader.readAsText(file);
+                this.value = ''; // reset input
+            });
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  FILTERS & SEARCH
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            document.getElementById('searchInput').addEventListener('input', renderAll);
+            document.getElementById('filterPosition').addEventListener('change', renderAll);
+            document.getElementById('filterStatus').addEventListener('change', renderAll);
+
+            document.getElementById('btnClearFilters').addEventListener('click', function() {
+                document.getElementById('searchInput').value = '';
+                document.getElementById('filterPosition').value = 'all';
+                document.getElementById('filterStatus').value = 'all';
+                renderAll();
+            });
+
+            // ─── Sort ────────────────────────────────────
+            let sortAsc = true;
+            document.getElementById('btnSortName').addEventListener('click', function() {
+                players.sort((a, b) => {
+                    const nameA = a.name.toLowerCase();
+                    const nameB = b.name.toLowerCase();
+                    return sortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+                });
+                sortAsc = !sortAsc;
+                saveData();
+                renderAll();
+                toast(`Sorted ${sortAsc ? 'A→Z' : 'Z→A'}`, 'info');
+            });
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  RESET
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            document.getElementById('btnReset').addEventListener('click', resetDatabase);
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  TOAST SYSTEM
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            function toast(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                const el = document.createElement('div');
+                el.className = `toast toast-${type}`;
+                const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+                el.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
+                container.appendChild(el);
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateX(20px)';
+                    setTimeout(() => el.remove(), 300);
+                }, 3500);
+            }
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  INIT
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            loadData();
+            renderAll();
+
+            // expose for debugging
+            window.__db = { players, addPlayer, updatePlayer, deletePlayer, resetDatabase };
+
+        })();
+    </script>
+
+</body>
+</html>
