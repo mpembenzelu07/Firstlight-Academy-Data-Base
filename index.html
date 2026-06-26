@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FIRSTLIGHT ACADEMY · Player Database</title>
+    <title>FIRSTLIGHT ACADEMY · Global Database</title>
     <style>
-        /* ───────────── RESET & BASE ───────────── */
+        /* ───────────── CSS RESET & VARIABLES ───────────── */
         *,
         *::before,
         *::after {
@@ -27,6 +27,7 @@
             --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
             --transition: 0.25s ease;
             --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --nav-height: 64px;
         }
         html {
             font-size: 16px;
@@ -36,170 +37,142 @@
             font-family: var(--font);
             background: var(--bg);
             color: var(--text);
-            padding: 24px 20px 60px;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-        }
-        .app {
-            max-width: 1300px;
-            width: 100%;
-        }
-
-        /* ───────────── TYPOGRAPHY ───────────── */
-        h1,
-        h2,
-        h3 {
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-        h1 {
-            font-size: 1.9rem;
-        }
-        h2 {
-            font-size: 1.4rem;
-            margin-bottom: 0.25rem;
-        }
-        h3 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
+            flex-direction: column;
         }
         a {
             color: var(--primary);
             text-decoration: none;
         }
-
-        /* ───────────── HEADER ───────────── */
-        .header {
+        .app {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ───────────── NAVIGATION ───────────── */
+        .navbar {
+            background: var(--primary);
+            color: #fff;
+            padding: 0 24px;
+            height: var(--nav-height);
+            display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px 24px;
-            background: var(--card);
-            padding: 18px 28px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 28px;
-            border: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .logo {
-            width: 44px;
-            height: 44px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
+        .navbar .brand {
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             letter-spacing: -0.5px;
-            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .header-left h1 {
-            font-size: 1.5rem;
-        }
-        .header-left h1 span {
+        .navbar .brand span {
             color: var(--accent);
         }
-        .header-sub {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-        .header-actions {
+        .nav-links {
             display: flex;
+            gap: 6px;
             flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        /* ───────────── BUTTONS ───────────── */
-        .btn {
-            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 8px 18px;
-            border: none;
-            border-radius: 8px;
+        }
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.75);
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: background var(--transition), color var(--transition);
             font-weight: 500;
             font-size: 0.9rem;
-            cursor: pointer;
-            transition: background var(--transition), transform 0.15s, box-shadow var(--transition);
-            background: var(--bg);
-            color: var(--text);
-            border: 1px solid var(--border);
         }
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-        }
-        .btn:active {
-            transform: translateY(0px);
-        }
-        .btn-primary {
-            background: var(--primary);
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.12);
             color: #fff;
-            border-color: var(--primary);
         }
-        .btn-primary:hover {
-            background: var(--primary-light);
-            border-color: var(--primary-light);
-        }
-        .btn-accent {
+        .nav-links a.active {
             background: var(--accent);
-            color: #1e2a3a;
-            border-color: var(--accent);
+            color: var(--primary);
         }
-        .btn-accent:hover {
-            background: var(--accent-hover);
-            border-color: var(--accent-hover);
+        .lang-selector {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 4px 6px;
+            border-radius: 6px;
         }
-        .btn-danger {
-            background: #e74c3c;
-            color: #fff;
-            border-color: #e74c3c;
-        }
-        .btn-danger:hover {
-            background: #c0392b;
-            border-color: #c0392b;
-        }
-        .btn-outline {
+        .lang-selector button {
             background: transparent;
-        }
-        .btn-sm {
-            padding: 4px 12px;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 2px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
             font-size: 0.8rem;
+            transition: all var(--transition);
         }
-        .btn-icon {
-            padding: 6px 10px;
-            font-size: 1rem;
+        .lang-selector button:hover,
+        .lang-selector button.active-lang {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        .lang-selector button.active-lang {
+            color: var(--primary);
         }
 
-        /* ───────────── STATS ROW ───────────── */
-        .stats-row {
+        /* ───────────── MAIN CONTENT ───────────── */
+        .main-content {
+            flex: 1;
+            padding: 28px 24px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ───────────── PAGES (views) ───────────── */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .page.active-page {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ───────────── DASHBOARD ───────────── */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 14px;
-            margin-bottom: 28px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 18px;
+            margin-bottom: 32px;
         }
         .stat-card {
             background: var(--card);
-            padding: 14px 18px;
+            padding: 18px 20px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
         }
         .stat-card .num {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            line-height: 1.2;
             color: var(--primary);
         }
         .stat-card .label {
@@ -209,21 +182,56 @@
             letter-spacing: 0.03em;
         }
 
-        /* ───────────── TOOLBAR ───────────── */
+        .chart-placeholder {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-top: 16px;
+            box-shadow: var(--shadow);
+        }
+        .chart-placeholder .bar-group {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 180px;
+            padding-top: 20px;
+        }
+        .chart-placeholder .bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60px;
+        }
+        .chart-placeholder .bar {
+            width: 100%;
+            background: var(--primary);
+            border-radius: 6px 6px 0 0;
+            transition: height 0.6s ease;
+            min-height: 8px;
+        }
+        .chart-placeholder .bar-label {
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ───────────── TABLE (Players) ───────────── */
         .toolbar {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 12px 16px;
             background: var(--card);
-            padding: 14px 22px;
+            padding: 12px 20px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .toolbar .search-wrap {
-            flex: 1 1 220px;
+            flex: 1 1 200px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -231,10 +239,6 @@
             padding: 4px 14px;
             border-radius: 8px;
             border: 1px solid var(--border);
-            transition: border var(--transition);
-        }
-        .toolbar .search-wrap:focus-within {
-            border-color: var(--primary);
         }
         .toolbar .search-wrap input {
             border: none;
@@ -243,37 +247,68 @@
             font-size: 0.95rem;
             width: 100%;
             outline: none;
-            color: var(--text);
         }
-        .toolbar .search-wrap input::placeholder {
-            color: var(--text-muted);
-        }
-        .filter-group {
+        .toolbar .filter-group {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
             gap: 8px;
+            align-items: center;
         }
-        .filter-group select {
+        .toolbar .filter-group select {
             padding: 6px 12px;
             border-radius: 6px;
             border: 1px solid var(--border);
             background: var(--bg);
             font-size: 0.85rem;
-            color: var(--text);
-            cursor: pointer;
-            outline: none;
         }
-        .filter-group select:focus {
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
             border-color: var(--primary);
         }
-        .toolbar .btn-group {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
+        .btn-primary:hover {
+            background: var(--primary-light);
         }
-
-        /* ───────────── TABLE ───────────── */
+        .btn-accent {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+        .btn-accent:hover {
+            background: var(--accent-hover);
+        }
+        .btn-danger {
+            background: #e74c3c;
+            color: #fff;
+            border-color: #e74c3c;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .btn-sm {
+            padding: 3px 10px;
+            font-size: 0.75rem;
+        }
         .table-wrap {
             background: var(--card);
             border-radius: var(--radius);
@@ -289,7 +324,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
-            min-width: 640px;
+            min-width: 700px;
         }
         thead {
             background: var(--bg);
@@ -297,16 +332,16 @@
         }
         th {
             text-align: left;
-            padding: 14px 16px;
+            padding: 12px 14px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.04em;
             color: var(--text-muted);
             white-space: nowrap;
         }
         td {
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-bottom: 1px solid var(--border);
             vertical-align: middle;
         }
@@ -318,21 +353,17 @@
         }
         .player-name {
             font-weight: 600;
+            cursor: pointer;
+            color: var(--primary);
         }
-        .player-position {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            background: #eef2f7;
-            color: var(--text-muted);
+        .player-name:hover {
+            text-decoration: underline;
         }
         .status-badge {
             display: inline-block;
             padding: 2px 12px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
         }
         .status-active {
@@ -345,24 +376,16 @@
         }
         .actions-cell {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
         }
         .empty-state {
             text-align: center;
-            padding: 48px 20px;
+            padding: 40px 20px;
             color: var(--text-muted);
         }
-        .empty-state .icon {
-            font-size: 3rem;
-            margin-bottom: 12px;
-            opacity: 0.5;
-        }
-        .empty-state p {
-            font-size: 1rem;
-        }
 
-        /* ───────────── MODAL ───────────── */
+        /* ───────────── MODAL (Add/Edit) ───────────── */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -373,14 +396,13 @@
             justify-content: center;
             z-index: 1000;
             padding: 20px;
-            animation: fadeIn 0.2s ease;
         }
         .modal-overlay.open {
             display: flex;
         }
         .modal {
             background: var(--card);
-            max-width: 560px;
+            max-width: 600px;
             width: 100%;
             border-radius: var(--radius);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
@@ -388,6 +410,16 @@
             max-height: 90vh;
             overflow-y: auto;
             animation: slideUp 0.25s ease;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .modal-header {
             display: flex;
@@ -404,8 +436,6 @@
             font-size: 1.6rem;
             cursor: pointer;
             color: var(--text-muted);
-            transition: color var(--transition);
-            line-height: 1;
         }
         .modal-close:hover {
             color: var(--text);
@@ -429,7 +459,6 @@
             font-size: 0.95rem;
             background: var(--bg);
             transition: border var(--transition);
-            color: var(--text);
         }
         .form-group input:focus,
         .form-group select:focus {
@@ -451,6 +480,24 @@
             border-top: 1px solid var(--border);
         }
 
+        /* ───────────── PLAYER DETAIL (mini profile) ───────────── */
+        .player-detail {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        .player-detail h2 {
+            margin-bottom: 12px;
+        }
+        .player-detail .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
         /* ───────────── TOAST ───────────── */
         .toast-container {
             position: fixed;
@@ -466,7 +513,7 @@
         .toast {
             background: var(--primary);
             color: #fff;
-            padding: 14px 20px;
+            padding: 12px 18px;
             border-radius: 10px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
             animation: slideUp 0.3s ease;
@@ -485,207 +532,176 @@
             background: var(--primary);
         }
 
-        /* ───────────── ANIMATIONS ───────────── */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* ───────────── RESPONSIVE ───────────── */
         @media (max-width: 700px) {
-            .header {
+            .navbar {
                 flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
+                height: auto;
+                padding: 12px 16px;
+                gap: 8px;
             }
-            .header-left h1 {
-                font-size: 1.2rem;
-            }
-            .header-actions {
-                justify-content: stretch;
-            }
-            .header-actions .btn {
-                flex: 1;
+            .nav-links {
+                width: 100%;
                 justify-content: center;
             }
-            .toolbar {
-                flex-direction: column;
-                align-items: stretch;
+            .lang-selector {
+                margin-left: auto;
             }
-            .filter-group {
-                justify-content: stretch;
-            }
-            .filter-group select {
-                flex: 1;
+            .main-content {
+                padding: 16px 12px 40px;
             }
             .form-row {
                 grid-template-columns: 1fr;
             }
-            .modal {
-                padding: 20px 18px;
-            }
-            .stats-row {
+            .stats-grid {
                 grid-template-columns: 1fr 1fr;
             }
-            .actions-cell {
-                flex-direction: column;
-            }
-            .actions-cell .btn {
-                width: 100%;
-                justify-content: center;
+            .modal {
+                padding: 20px 16px;
             }
         }
         @media (max-width: 450px) {
-            body {
-                padding: 12px 10px 40px;
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
-            .stats-row {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-            }
-            .stat-card .num {
-                font-size: 1.5rem;
-            }
-            .stat-card {
-                padding: 10px 12px;
-            }
-            .header {
-                padding: 14px 16px;
-            }
-            .toolbar {
-                padding: 12px 14px;
-            }
-        }
-
-        /* ───────────── SCROLLBAR ───────────── */
-        .table-scroll::-webkit-scrollbar {
-            height: 6px;
-        }
-        .table-scroll::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        .table-scroll::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
-        }
-        .table-scroll::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
         }
     </style>
 </head>
 <body>
 
     <div class="app" id="app">
+        <!-- ─── NAVIGATION ─── -->
+        <nav class="navbar">
+            <div class="brand">⚡ FIRSTLIGHT <span>ACADEMY</span></div>
+            <div class="nav-links">
+                <a href="#dashboard" class="active" data-page="dashboard">Dashboard</a>
+                <a href="#players" data-page="players">Players</a>
+                <a href="#stats" data-page="stats">Statistics</a>
+                <a href="#about" data-page="about">About</a>
+                <button class="btn btn-accent btn-sm" id="btnAddPlayerNav">＋ Add</button>
+            </div>
+            <div class="lang-selector">
+                <button class="active-lang" data-lang="en">EN</button>
+                <button data-lang="es">ES</button>
+                <button data-lang="fr">FR</button>
+            </div>
+        </nav>
 
-        <!-- ─── HEADER ─── -->
-        <header class="header">
-            <div class="header-left">
-                <div class="logo">FL</div>
-                <div>
-                    <h1>FIRSTLIGHT <span>ACADEMY</span></h1>
-                    <div class="header-sub">Player Database · v1.0</div>
+        <!-- ─── MAIN CONTENT ─── -->
+        <div class="main-content">
+
+            <!-- ===== DASHBOARD PAGE ===== -->
+            <div id="page-dashboard" class="page active-page">
+                <h1 data-i18n="dashboard_title">🏆 Team Dashboard</h1>
+                <div class="stats-grid" id="dashboardStats">
+                    <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label" data-i18n="total_players">Total Players</div></div>
+                    <div class="stat-card"><div class="num" id="statActive">0</div><div class="label" data-i18n="active">Active</div></div>
+                    <div class="stat-card"><div class="num" id="statNationalities">0</div><div class="label" data-i18n="nationalities">Nationalities</div></div>
+                    <div class="stat-card"><div class="num" id="statAvgAge">—</div><div class="label" data-i18n="avg_age">Avg. Age</div></div>
+                </div>
+                <div class="chart-placeholder">
+                    <h3 data-i18n="goals_per_position">Goals by Position</h3>
+                    <div class="bar-group" id="goalsChart"></div>
                 </div>
             </div>
-            <div class="header-actions">
-                <button class="btn btn-accent" id="btnAddPlayer">＋ Add Player</button>
-                <button class="btn btn-outline" id="btnExport">⬇ Export</button>
-                <button class="btn btn-outline" id="btnImport">⬆ Import</button>
-                <input type="file" id="fileInput" accept=".json" style="display:none" />
-                <button class="btn btn-outline btn-sm" id="btnReset" style="color:#e74c3c;">⟳ Reset</button>
-            </div>
-        </header>
 
-        <!-- ─── STATS ─── -->
-        <section class="stats-row" id="statsRow">
-            <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">Total Players</div></div>
-            <div class="stat-card"><div class="num" id="statActive">0</div><div class="label">Active</div></div>
-            <div class="stat-card"><div class="num" id="statPositions">0</div><div class="label">Positions</div></div>
-            <div class="stat-card"><div class="num" id="statAvgAge">—</div><div class="label">Avg. Age</div></div>
-        </section>
+            <!-- ===== PLAYERS PAGE ===== -->
+            <div id="page-players" class="page">
+                <h1 data-i18n="players_title">📋 Roster Management</h1>
+                <div class="toolbar">
+                    <div class="search-wrap">
+                        <span>🔍</span>
+                        <input type="text" id="searchInput" placeholder="Search name, nationality…" data-i18n-placeholder="search_placeholder" />
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterPosition"><option value="all" data-i18n="all_positions">All Positions</option>
+                            <option value="Goalkeeper">Goalkeeper</option><option value="Defender">Defender</option>
+                            <option value="Midfielder">Midfielder</option><option value="Forward">Forward</option>
+                        </select>
+                        <select id="filterTeam"><option value="all" data-i18n="all_teams">All Teams</option>
+                            <option value="First Team">First Team</option><option value="U21">U21</option>
+                            <option value="U19">U19</option><option value="Academy">Academy</option>
+                        </select>
+                        <select id="filterStatus"><option value="all" data-i18n="all_status">All Status</option>
+                            <option value="Active">Active</option><option value="Inactive">Inactive</option>
+                        </select>
+                        <button class="btn btn-sm" id="btnClearFilters" data-i18n="clear">Clear</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-sm" id="btnExport" data-i18n="export">⬇ Export</button>
+                        <button class="btn btn-sm" id="btnImport" data-i18n="import">⬆ Import</button>
+                        <input type="file" id="fileInput" accept=".json" style="display:none" />
+                        <button class="btn btn-sm btn-danger" id="btnReset" data-i18n="reset">⟳ Reset</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th data-i18n="name">Name</th>
+                                    <th data-i18n="position">Position</th>
+                                    <th data-i18n="jersey">Jersey</th>
+                                    <th data-i18n="age">Age</th>
+                                    <th data-i18n="nationality">Nationality</th>
+                                    <th data-i18n="team">Team</th>
+                                    <th data-i18n="goals">Goals</th>
+                                    <th data-i18n="assists">Assists</th>
+                                    <th data-i18n="apps">Apps</th>
+                                    <th data-i18n="status">Status</th>
+                                    <th style="min-width:120px;" data-i18n="actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-        <!-- ─── TOOLBAR ─── -->
-        <div class="toolbar">
-            <div class="search-wrap">
-                <span>🔍</span>
-                <input type="text" id="searchInput" placeholder="Search name, position, number…" />
+            <!-- ===== STATISTICS PAGE ===== -->
+            <div id="page-stats" class="page">
+                <h1 data-i18n="stats_title">📊 Detailed Statistics</h1>
+                <div class="stats-grid" id="statsExtra">
+                    <div class="stat-card"><div class="num" id="statGoalsTotal">0</div><div class="label" data-i18n="total_goals">Total Goals</div></div>
+                    <div class="stat-card"><div class="num" id="statAssistsTotal">0</div><div class="label" data-i18n="total_assists">Total Assists</div></div>
+                    <div class="stat-card"><div class="num" id="statAppsTotal">0</div><div class="label" data-i18n="total_apps">Total Appearances</div></div>
+                    <div class="stat-card"><div class="num" id="statTopScorer">—</div><div class="label" data-i18n="top_scorer">Top Scorer</div></div>
+                </div>
+                <div class="player-detail" id="topScorerDetail">
+                    <h3 data-i18n="top_scorer_details">Top Scorer Details</h3>
+                    <div id="topScorerInfo" style="margin-top:8px;">Select a player to see details.</div>
+                </div>
             </div>
-            <div class="filter-group">
-                <select id="filterPosition">
-                    <option value="all">All Positions</option>
-                    <option value="Goalkeeper">Goalkeeper</option>
-                    <option value="Defender">Defender</option>
-                    <option value="Midfielder">Midfielder</option>
-                    <option value="Forward">Forward</option>
-                </select>
-                <select id="filterStatus">
-                    <option value="all">All Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
-                <button class="btn btn-sm btn-outline" id="btnClearFilters">Clear</button>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-sm btn-outline" id="btnSortName">Sort A–Z</button>
-            </div>
-        </div>
 
-        <!-- ─── TABLE ─── -->
-        <div class="table-wrap">
-            <div class="table-scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Jersey</th>
-                            <th>Age</th>
-                            <th>Height</th>
-                            <th>Weight</th>
-                            <th>Goals</th>
-                            <th>Assists</th>
-                            <th>Apps</th>
-                            <th>Status</th>
-                            <th style="min-width:120px;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <!-- dynamic -->
-                    </tbody>
-                </table>
+            <!-- ===== ABOUT PAGE ===== -->
+            <div id="page-about" class="page">
+                <h1 data-i18n="about_title">ℹ️ About FIRSTLIGHT ACADEMY</h1>
+                <div style="background:var(--card); border-radius:var(--radius); padding:24px; border:1px solid var(--border); box-shadow:var(--shadow);">
+                    <p data-i18n="about_text">FIRSTLIGHT ACADEMY is a global football development program. This database system helps coaches and staff manage player profiles, track statistics, and monitor team performance across multiple squads. Built with love for the beautiful game.</p>
+                    <p style="margin-top:12px;" data-i18n="about_tech">Technologies: HTML, CSS, JavaScript (SPA with routing), localStorage, i18n.</p>
+                    <p style="margin-top:8px; color:var(--text-muted);">© 2026 FIRSTLIGHT ACADEMY</p>
+                </div>
             </div>
+
         </div>
 
         <!-- ─── MODAL ─── -->
         <div class="modal-overlay" id="modalOverlay">
             <div class="modal">
                 <div class="modal-header">
-                    <h2 id="modalTitle">Add Player</h2>
+                    <h2 id="modalTitle" data-i18n="add_player">Add Player</h2>
                     <button class="modal-close" id="modalClose">&times;</button>
                 </div>
                 <form id="playerForm" autocomplete="off">
                     <input type="hidden" id="editId" value="" />
                     <div class="form-group">
-                        <label for="fName">Full Name *</label>
-                        <input type="text" id="fName" placeholder="e.g. Jamie Vardy" required />
+                        <label data-i18n="full_name">Full Name *</label>
+                        <input type="text" id="fName" placeholder="e.g. Lionel Messi" required />
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="fPosition">Position *</label>
+                            <label data-i18n="position">Position *</label>
                             <select id="fPosition" required>
                                 <option value="">Select</option>
                                 <option value="Goalkeeper">Goalkeeper</option>
@@ -695,27 +711,32 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="fJersey">Jersey # *</label>
-                            <input type="number" id="fJersey" placeholder="e.g. 9" min="0" max="99" required />
+                            <label data-i18n="jersey">Jersey # *</label>
+                            <input type="number" id="fJersey" placeholder="e.g. 10" min="0" max="99" required />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="fAge">Age *</label>
-                            <input type="number" id="fAge" placeholder="e.g. 24" min="15" max="50" required />
+                            <label data-i18n="age">Age *</label>
+                            <input type="number" id="fAge" placeholder="e.g. 25" min="15" max="50" required />
                         </div>
                         <div class="form-group">
-                            <label for="fHeight">Height (cm)</label>
-                            <input type="number" id="fHeight" placeholder="e.g. 178" min="140" max="220" />
+                            <label data-i18n="nationality">Nationality</label>
+                            <input type="text" id="fNationality" placeholder="e.g. Argentina" />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="fWeight">Weight (kg)</label>
-                            <input type="number" id="fWeight" placeholder="e.g. 75" min="40" max="150" />
+                            <label data-i18n="team">Team</label>
+                            <select id="fTeam">
+                                <option value="First Team">First Team</option>
+                                <option value="U21">U21</option>
+                                <option value="U19">U19</option>
+                                <option value="Academy">Academy</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="fStatus">Status</label>
+                            <label data-i18n="status">Status</label>
                             <select id="fStatus">
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
@@ -724,21 +745,21 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="fGoals">Goals</label>
+                            <label data-i18n="goals">Goals</label>
                             <input type="number" id="fGoals" placeholder="0" min="0" value="0" />
                         </div>
                         <div class="form-group">
-                            <label for="fAssists">Assists</label>
+                            <label data-i18n="assists">Assists</label>
                             <input type="number" id="fAssists" placeholder="0" min="0" value="0" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="fAppearances">Appearances</label>
+                        <label data-i18n="appearances">Appearances</label>
                         <input type="number" id="fAppearances" placeholder="0" min="0" value="0" />
                     </div>
                     <div class="form-actions">
-                        <button type="button" class="btn btn-outline" id="modalCancel">Cancel</button>
-                        <button type="submit" class="btn btn-primary" id="modalSubmit">Save Player</button>
+                        <button type="button" class="btn" id="modalCancel" data-i18n="cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="modalSubmit" data-i18n="save">Save Player</button>
                     </div>
                 </form>
             </div>
@@ -756,7 +777,7 @@
             //  DATA LAYER
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-            const STORAGE_KEY = 'firstlight_players';
+            const STORAGE_KEY = 'firstlight_players_global';
             let players = [];
             let nextId = 1;
 
@@ -766,9 +787,8 @@
                     const raw = localStorage.getItem(STORAGE_KEY);
                     if (raw) {
                         const parsed = JSON.parse(raw);
-                        if (Array.isArray(parsed)) {
+                        if (Array.isArray(parsed) && parsed.length) {
                             players = parsed;
-                            // find max id
                             let max = 0;
                             players.forEach(p => { if (p.id > max) max = p.id; });
                             nextId = max + 1;
@@ -776,7 +796,6 @@
                         }
                     }
                 } catch (_) { /* ignore */ }
-                // fallback: seed with demo data
                 seedDemoData();
             }
 
@@ -791,8 +810,8 @@
                     position: 'Goalkeeper',
                     jersey: 1,
                     age: 28,
-                    height: 188,
-                    weight: 82,
+                    nationality: 'England',
+                    team: 'First Team',
                     goals: 0,
                     assists: 1,
                     appearances: 47,
@@ -803,8 +822,8 @@
                     position: 'Defender',
                     jersey: 4,
                     age: 24,
-                    height: 172,
-                    weight: 67,
+                    nationality: 'Spain',
+                    team: 'First Team',
                     goals: 3,
                     assists: 7,
                     appearances: 52,
@@ -815,8 +834,8 @@
                     position: 'Midfielder',
                     jersey: 8,
                     age: 22,
-                    height: 180,
-                    weight: 74,
+                    nationality: 'Ghana',
+                    team: 'U21',
                     goals: 12,
                     assists: 14,
                     appearances: 61,
@@ -827,8 +846,8 @@
                     position: 'Forward',
                     jersey: 9,
                     age: 21,
-                    height: 165,
-                    weight: 60,
+                    nationality: 'Australia',
+                    team: 'First Team',
                     goals: 22,
                     assists: 9,
                     appearances: 44,
@@ -839,8 +858,8 @@
                     position: 'Defender',
                     jersey: 5,
                     age: 30,
-                    height: 185,
-                    weight: 80,
+                    nationality: 'Russia',
+                    team: 'First Team',
                     goals: 2,
                     assists: 3,
                     appearances: 38,
@@ -851,8 +870,8 @@
                     position: 'Midfielder',
                     jersey: 10,
                     age: 26,
-                    height: 170,
-                    weight: 65,
+                    nationality: 'China',
+                    team: 'First Team',
                     goals: 8,
                     assists: 18,
                     appearances: 55,
@@ -863,14 +882,38 @@
                     position: 'Forward',
                     jersey: 7,
                     age: 23,
-                    height: 178,
-                    weight: 72,
+                    nationality: 'Ireland',
+                    team: 'U21',
                     goals: 16,
                     assists: 6,
                     appearances: 40,
                     status: 'Active'
+                }, {
+                    id: 8,
+                    name: 'Fatima Al-Rashid',
+                    position: 'Midfielder',
+                    jersey: 14,
+                    age: 20,
+                    nationality: 'UAE',
+                    team: 'U19',
+                    goals: 5,
+                    assists: 11,
+                    appearances: 30,
+                    status: 'Active'
+                }, {
+                    id: 9,
+                    name: 'Carlos Mendoza',
+                    position: 'Forward',
+                    jersey: 11,
+                    age: 27,
+                    nationality: 'Mexico',
+                    team: 'First Team',
+                    goals: 19,
+                    assists: 8,
+                    appearances: 48,
+                    status: 'Active'
                 }];
-                nextId = 8;
+                nextId = 10;
                 saveData();
             }
 
@@ -906,6 +949,169 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  INTERNATIONALIZATION (i18n)
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            const translations = {
+                en: {
+                    dashboard_title: '🏆 Team Dashboard',
+                    total_players: 'Total Players',
+                    active: 'Active',
+                    nationalities: 'Nationalities',
+                    avg_age: 'Avg. Age',
+                    goals_per_position: 'Goals by Position',
+                    players_title: '📋 Roster Management',
+                    search_placeholder: 'Search name, nationality…',
+                    all_positions: 'All Positions',
+                    all_teams: 'All Teams',
+                    all_status: 'All Status',
+                    clear: 'Clear',
+                    export: '⬇ Export',
+                    import: '⬆ Import',
+                    reset: '⟳ Reset',
+                    name: 'Name',
+                    position: 'Position',
+                    jersey: 'Jersey',
+                    age: 'Age',
+                    nationality: 'Nationality',
+                    team: 'Team',
+                    goals: 'Goals',
+                    assists: 'Assists',
+                    apps: 'Apps',
+                    status: 'Status',
+                    actions: 'Actions',
+                    stats_title: '📊 Detailed Statistics',
+                    total_goals: 'Total Goals',
+                    total_assists: 'Total Assists',
+                    total_apps: 'Total Appearances',
+                    top_scorer: 'Top Scorer',
+                    top_scorer_details: 'Top Scorer Details',
+                    about_title: 'ℹ️ About FIRSTLIGHT ACADEMY',
+                    about_text: 'FIRSTLIGHT ACADEMY is a global football development program. This database system helps coaches and staff manage player profiles, track statistics, and monitor team performance across multiple squads. Built with love for the beautiful game.',
+                    about_tech: 'Technologies: HTML, CSS, JavaScript (SPA with routing), localStorage, i18n.',
+                    add_player: 'Add Player',
+                    full_name: 'Full Name *',
+                    cancel: 'Cancel',
+                    save: 'Save Player',
+                },
+                es: {
+                    dashboard_title: '🏆 Panel del Equipo',
+                    total_players: 'Jugadores Totales',
+                    active: 'Activos',
+                    nationalities: 'Nacionalidades',
+                    avg_age: 'Edad Prom.',
+                    goals_per_position: 'Goles por Posición',
+                    players_title: '📋 Gestión de Plantilla',
+                    search_placeholder: 'Buscar nombre, nacionalidad…',
+                    all_positions: 'Todas las Posiciones',
+                    all_teams: 'Todos los Equipos',
+                    all_status: 'Todos los Estados',
+                    clear: 'Limpiar',
+                    export: '⬇ Exportar',
+                    import: '⬆ Importar',
+                    reset: '⟳ Reiniciar',
+                    name: 'Nombre',
+                    position: 'Posición',
+                    jersey: 'Camiseta',
+                    age: 'Edad',
+                    nationality: 'Nacionalidad',
+                    team: 'Equipo',
+                    goals: 'Goles',
+                    assists: 'Asistencias',
+                    apps: 'Partidos',
+                    status: 'Estado',
+                    actions: 'Acciones',
+                    stats_title: '📊 Estadísticas Detalladas',
+                    total_goals: 'Goles Totales',
+                    total_assists: 'Asistencias Totales',
+                    total_apps: 'Partidos Totales',
+                    top_scorer: 'Máximo Goleador',
+                    top_scorer_details: 'Detalles del Máximo Goleador',
+                    about_title: 'ℹ️ Acerca de FIRSTLIGHT ACADEMY',
+                    about_text: 'FIRSTLIGHT ACADEMY es un programa global de desarrollo futbolístico. Este sistema de base de datos ayuda a entrenadores y personal a gestionar perfiles de jugadores, rastrear estadísticas y monitorear el rendimiento del equipo en múltiples plantillas. Hecho con amor por el hermoso juego.',
+                    about_tech: 'Tecnologías: HTML, CSS, JavaScript (SPA con enrutamiento), localStorage, i18n.',
+                    add_player: 'Añadir Jugador',
+                    full_name: 'Nombre Completo *',
+                    cancel: 'Cancelar',
+                    save: 'Guardar Jugador',
+                },
+                fr: {
+                    dashboard_title: '🏆 Tableau de Bord',
+                    total_players: 'Joueurs Totaux',
+                    active: 'Actifs',
+                    nationalities: 'Nationalités',
+                    avg_age: 'Âge Moyen',
+                    goals_per_position: 'Buts par Position',
+                    players_title: '📋 Gestion de l\'Effectif',
+                    search_placeholder: 'Rechercher nom, nationalité…',
+                    all_positions: 'Toutes Positions',
+                    all_teams: 'Toutes Équipes',
+                    all_status: 'Tous Statuts',
+                    clear: 'Effacer',
+                    export: '⬇ Exporter',
+                    import: '⬆ Importer',
+                    reset: '⟳ Réinitialiser',
+                    name: 'Nom',
+                    position: 'Position',
+                    jersey: 'Maillot',
+                    age: 'Âge',
+                    nationality: 'Nationalité',
+                    team: 'Équipe',
+                    goals: 'Buts',
+                    assists: 'Passes',
+                    apps: 'Matchs',
+                    status: 'Statut',
+                    actions: 'Actions',
+                    stats_title: '📊 Statistiques Détaillées',
+                    total_goals: 'Buts Totaux',
+                    total_assists: 'Passes Totales',
+                    total_apps: 'Matchs Totaux',
+                    top_scorer: 'Meilleur Buteur',
+                    top_scorer_details: 'Détails du Meilleur Buteur',
+                    about_title: 'ℹ️ À propos de FIRSTLIGHT ACADEMY',
+                    about_text: 'FIRSTLIGHT ACADEMY est un programme mondial de développement du football. Ce système de base de données aide les entraîneurs et le personnel à gérer les profils des joueurs, suivre les statistiques et surveiller les performances de l\'équipe dans plusieurs effectifs. Construit avec amour pour le beau jeu.',
+                    about_tech: 'Technologies: HTML, CSS, JavaScript (SPA avec routage), localStorage, i18n.',
+                    add_player: 'Ajouter un Joueur',
+                    full_name: 'Nom Complet *',
+                    cancel: 'Annuler',
+                    save: 'Enregistrer',
+                }
+            };
+
+            let currentLang = 'en';
+
+            function setLanguage(lang) {
+                if (!translations[lang]) return;
+                currentLang = lang;
+                // Update all elements with data-i18n
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (translations[lang][key]) {
+                        // For input placeholders
+                        if (el.hasAttribute('data-i18n-placeholder')) {
+                            el.placeholder = translations[lang][key];
+                        } else {
+                            el.textContent = translations[lang][key];
+                        }
+                    }
+                });
+                // Update placeholders for search input specifically
+                const searchInput = document.getElementById('searchInput');
+                const placeholderKey = searchInput.getAttribute('data-i18n-placeholder');
+                if (placeholderKey && translations[lang][placeholderKey]) {
+                    searchInput.placeholder = translations[lang][placeholderKey];
+                }
+                // Update language switcher buttons
+                document.querySelectorAll('.lang-selector button').forEach(btn => {
+                    btn.classList.toggle('active-lang', btn.dataset.lang === lang);
+                });
+                // Re-render dynamic content that uses i18n keys (like table headers) - we already set data-i18n on static headers, but dynamic rows need translation later
+                // We'll re-render the table
+                renderAll();
+                toast(`Language switched to ${lang.toUpperCase()}`, 'info');
+            }
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             //  RENDER
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -915,69 +1121,71 @@
                 applyFilters();
                 renderStats();
                 renderTable();
+                renderDashboardStats();
+                renderStatisticsPage();
+                renderGoalsChart();
+                renderTopScorer();
             }
 
             function applyFilters() {
                 const search = document.getElementById('searchInput').value.toLowerCase().trim();
                 const pos = document.getElementById('filterPosition').value;
+                const team = document.getElementById('filterTeam').value;
                 const status = document.getElementById('filterStatus').value;
 
                 filteredPlayers = players.filter(p => {
                     const matchSearch = p.name.toLowerCase().includes(search) ||
-                        p.position.toLowerCase().includes(search) ||
+                        (p.nationality && p.nationality.toLowerCase().includes(search)) ||
                         String(p.jersey).includes(search);
                     const matchPos = pos === 'all' || p.position === pos;
+                    const matchTeam = team === 'all' || p.team === team;
                     const matchStatus = status === 'all' || p.status === status;
-                    return matchSearch && matchPos && matchStatus;
+                    return matchSearch && matchPos && matchTeam && matchStatus;
                 });
             }
 
             function renderStats() {
+                // Used for dashboard
+            }
+
+            function renderDashboardStats() {
                 const total = players.length;
                 const active = players.filter(p => p.status === 'Active').length;
-                const positions = new Set(players.map(p => p.position)).size;
+                const natSet = new Set(players.map(p => p.nationality).filter(Boolean));
                 const ages = players.map(p => p.age).filter(a => a > 0);
                 const avgAge = ages.length ? (ages.reduce((s, a) => s + a, 0) / ages.length).toFixed(1) : '—';
 
                 document.getElementById('statTotal').textContent = total;
                 document.getElementById('statActive').textContent = active;
-                document.getElementById('statPositions').textContent = positions;
+                document.getElementById('statNationalities').textContent = natSet.size;
                 document.getElementById('statAvgAge').textContent = avgAge;
             }
 
             function renderTable() {
                 const tbody = document.getElementById('tableBody');
                 if (filteredPlayers.length === 0) {
-                    tbody.innerHTML = `
-                            <tr><td colspan="12">
-                                <div class="empty-state">
-                                    <div class="icon">⚽</div>
-                                    <p>${players.length === 0 ? 'No players yet. Add your first player!' : 'No players match your filters.'}</p>
-                                </div>
-                            </td></tr>
-                        `;
+                    tbody.innerHTML = `<tr><td colspan="12"><div class="empty-state">⚽ ${players.length === 0 ? 'No players yet.' : 'No matches.'}</div></td></tr>`;
                     return;
                 }
-
                 let html = '';
                 filteredPlayers.forEach((p, idx) => {
                     const statusClass = p.status === 'Active' ? 'status-active' : 'status-inactive';
                     html += `
                             <tr>
                                 <td>${idx + 1}</td>
-                                <td class="player-name">${escHtml(p.name)}</td>
-                                <td><span class="player-position">${escHtml(p.position)}</span></td>
+                                <td class="player-name" data-id="${p.id}">${escHtml(p.name)}</td>
+                                <td>${escHtml(p.position)}</td>
                                 <td>${p.jersey}</td>
                                 <td>${p.age}</td>
-                                <td>${p.height || '—'}</td>
-                                <td>${p.weight || '—'}</td>
+                                <td>${escHtml(p.nationality || '—')}</td>
+                                <td>${escHtml(p.team || '—')}</td>
                                 <td>${p.goals ?? 0}</td>
                                 <td>${p.assists ?? 0}</td>
                                 <td>${p.appearances ?? 0}</td>
                                 <td><span class="status-badge ${statusClass}">${escHtml(p.status)}</span></td>
                                 <td>
                                     <div class="actions-cell">
-                                        <button class="btn btn-sm btn-outline btn-edit" data-id="${p.id}">✎</button>
+                                        <button class="btn btn-sm btn-edit" data-id="${p.id}">✎</button>
                                         <button class="btn btn-sm btn-danger btn-delete" data-id="${p.id}">✕</button>
                                     </div>
                                 </td>
@@ -986,13 +1194,70 @@
                 });
                 tbody.innerHTML = html;
 
-                // attach event listeners to edit/delete buttons
+                // Click on player name to show detail (open modal with read-only info? For simplicity, we'll show a toast)
+                tbody.querySelectorAll('.player-name').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const id = Number(this.dataset.id);
+                        const p = getPlayer(id);
+                        if (p) {
+                            toast(`${p.name} (${p.position}) - ${p.nationality || 'No nationality'}`, 'info');
+                        }
+                    });
+                });
                 tbody.querySelectorAll('.btn-edit').forEach(btn => {
                     btn.addEventListener('click', () => openEditModal(Number(btn.dataset.id)));
                 });
                 tbody.querySelectorAll('.btn-delete').forEach(btn => {
                     btn.addEventListener('click', () => handleDelete(Number(btn.dataset.id)));
                 });
+            }
+
+            function renderStatisticsPage() {
+                const totalGoals = players.reduce((s, p) => s + (p.goals || 0), 0);
+                const totalAssists = players.reduce((s, p) => s + (p.assists || 0), 0);
+                const totalApps = players.reduce((s, p) => s + (p.appearances || 0), 0);
+                document.getElementById('statGoalsTotal').textContent = totalGoals;
+                document.getElementById('statAssistsTotal').textContent = totalAssists;
+                document.getElementById('statAppsTotal').textContent = totalApps;
+            }
+
+            function renderTopScorer() {
+                if (players.length === 0) {
+                    document.getElementById('statTopScorer').textContent = '—';
+                    document.getElementById('topScorerInfo').textContent = 'No players.';
+                    return;
+                }
+                const sorted = [...players].sort((a, b) => (b.goals || 0) - (a.goals || 0));
+                const top = sorted[0];
+                document.getElementById('statTopScorer').textContent = top ? `${top.name} (${top.goals})` : '—';
+                if (top) {
+                    document.getElementById('topScorerInfo').innerHTML = `
+                            <strong>${escHtml(top.name)}</strong> · ${escHtml(top.position)} · ${top.goals} goals, ${top.assists} assists<br>
+                            Nationality: ${escHtml(top.nationality || '—')} · Team: ${escHtml(top.team || '—')}
+                        `;
+                } else {
+                    document.getElementById('topScorerInfo').textContent = 'No data.';
+                }
+            }
+
+            function renderGoalsChart() {
+                const container = document.getElementById('goalsChart');
+                const positions = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'];
+                const totals = positions.map(pos => {
+                    return players.filter(p => p.position === pos).reduce((s, p) => s + (p.goals || 0), 0);
+                });
+                const max = Math.max(...totals, 1);
+                let html = '';
+                positions.forEach((pos, i) => {
+                    const height = (totals[i] / max) * 160 + 20;
+                    html += `
+                            <div class="bar-item">
+                                <div class="bar" style="height:${height}px; background:${['#0b1a33','#1a3355','#f0b429','#d9a020'][i]};"></div>
+                                <div class="bar-label">${pos}<br>${totals[i]}</div>
+                            </div>
+                        `;
+                });
+                container.innerHTML = html;
             }
 
             function escHtml(str) {
@@ -1005,6 +1270,46 @@
                     return m;
                 });
             }
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  ROUTING (page switching)
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            function navigateTo(pageId) {
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+                const target = document.getElementById(`page-${pageId}`);
+                if (target) target.classList.add('active-page');
+                // Update nav links
+                document.querySelectorAll('.nav-links a').forEach(a => {
+                    a.classList.toggle('active', a.dataset.page === pageId);
+                });
+                // Update URL hash
+                window.location.hash = pageId;
+                // Re-render content that may need update (stats, etc.)
+                if (pageId === 'dashboard') renderDashboardStats();
+                if (pageId === 'stats') { renderStatisticsPage();
+                    renderTopScorer(); }
+                if (pageId === 'players') renderTable();
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // ─── Handle hash changes ────────────────────
+            window.addEventListener('hashchange', function() {
+                const hash = window.location.hash.replace('#', '') || 'dashboard';
+                navigateTo(hash);
+            });
+
+            // ─── Nav link clicks ─────────────────────────
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    window.location.hash = page;
+                    navigateTo(page);
+                });
+            });
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             //  MODAL
@@ -1023,8 +1328,8 @@
                 document.getElementById('fPosition').value = data ? data.position : '';
                 document.getElementById('fJersey').value = data ? data.jersey : '';
                 document.getElementById('fAge').value = data ? data.age : '';
-                document.getElementById('fHeight').value = data ? data.height : '';
-                document.getElementById('fWeight').value = data ? data.weight : '';
+                document.getElementById('fNationality').value = data ? data.nationality : '';
+                document.getElementById('fTeam').value = data ? data.team : 'First Team';
                 document.getElementById('fStatus').value = data ? data.status : 'Active';
                 document.getElementById('fGoals').value = data ? data.goals : 0;
                 document.getElementById('fAssists').value = data ? data.assists : 0;
@@ -1058,21 +1363,20 @@
                 const position = document.getElementById('fPosition').value;
                 const jersey = parseInt(document.getElementById('fJersey').value);
                 const age = parseInt(document.getElementById('fAge').value);
-                const height = parseInt(document.getElementById('fHeight').value) || null;
-                const weight = parseInt(document.getElementById('fWeight').value) || null;
+                const nationality = document.getElementById('fNationality').value.trim();
+                const team = document.getElementById('fTeam').value;
                 const status = document.getElementById('fStatus').value;
                 const goals = parseInt(document.getElementById('fGoals').value) || 0;
                 const assists = parseInt(document.getElementById('fAssists').value) || 0;
                 const appearances = parseInt(document.getElementById('fAppearances').value) || 0;
                 const editId = editIdInput.value ? parseInt(editIdInput.value) : null;
 
-                // validation
                 if (!name || name.length < 2) { toast('Name is required (min 2 chars)', 'error'); return; }
                 if (!position) { toast('Please select a position', 'error'); return; }
                 if (isNaN(jersey) || jersey < 0 || jersey > 99) { toast('Jersey must be 0–99', 'error'); return; }
                 if (isNaN(age) || age < 15 || age > 50) { toast('Age must be 15–50', 'error'); return; }
 
-                const data = { name, position, jersey, age, height, weight, status, goals, assists, appearances };
+                const data = { name, position, jersey, age, nationality, team, status, goals, assists, appearances };
 
                 if (editId) {
                     const updated = updatePlayer(editId, data);
@@ -1091,8 +1395,7 @@
                 }
             });
 
-            // ─── Modal controls ──────────────────────────
-            document.getElementById('btnAddPlayer').addEventListener('click', openAddModal);
+            document.getElementById('btnAddPlayerNav').addEventListener('click', openAddModal);
             document.getElementById('modalClose').addEventListener('click', closeModal);
             document.getElementById('modalCancel').addEventListener('click', closeModal);
             overlay.addEventListener('click', function(e) {
@@ -1146,11 +1449,9 @@
                     try {
                         const data = JSON.parse(ev.target.result);
                         if (!Array.isArray(data)) throw new Error('Invalid format');
-                        // validate minimal structure
                         if (data.length && !data[0].name) throw new Error('Missing "name" field');
                         if (confirm(`Import ${data.length} players? This will replace all current data.`)) {
                             players = data;
-                            // recalc nextId
                             let max = 0;
                             players.forEach(p => { if (p.id > max) max = p.id; });
                             nextId = max + 1;
@@ -1163,7 +1464,7 @@
                     }
                 };
                 reader.readAsText(file);
-                this.value = ''; // reset input
+                this.value = '';
             });
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1172,27 +1473,26 @@
 
             document.getElementById('searchInput').addEventListener('input', renderAll);
             document.getElementById('filterPosition').addEventListener('change', renderAll);
+            document.getElementById('filterTeam').addEventListener('change', renderAll);
             document.getElementById('filterStatus').addEventListener('change', renderAll);
 
             document.getElementById('btnClearFilters').addEventListener('click', function() {
                 document.getElementById('searchInput').value = '';
                 document.getElementById('filterPosition').value = 'all';
+                document.getElementById('filterTeam').value = 'all';
                 document.getElementById('filterStatus').value = 'all';
                 renderAll();
             });
 
-            // ─── Sort ────────────────────────────────────
-            let sortAsc = true;
-            document.getElementById('btnSortName').addEventListener('click', function() {
-                players.sort((a, b) => {
-                    const nameA = a.name.toLowerCase();
-                    const nameB = b.name.toLowerCase();
-                    return sortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  LANGUAGE SWITCHER
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+            document.querySelectorAll('.lang-selector button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    setLanguage(lang);
                 });
-                sortAsc = !sortAsc;
-                saveData();
-                renderAll();
-                toast(`Sorted ${sortAsc ? 'A→Z' : 'Z→A'}`, 'info');
             });
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1202,7 +1502,7 @@
             document.getElementById('btnReset').addEventListener('click', resetDatabase);
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  TOAST SYSTEM
+            //  TOAST
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
             function toast(message, type = 'info') {
@@ -1224,9 +1524,16 @@
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
             loadData();
-            renderAll();
+            // Set initial language from browser or default to 'en'
+            const browserLang = navigator.language.slice(0, 2);
+            const initialLang = translations[browserLang] ? browserLang : 'en';
+            setLanguage(initialLang);
 
-            // expose for debugging
+            // Navigate to hash or dashboard
+            const hash = window.location.hash.replace('#', '') || 'dashboard';
+            navigateTo(hash);
+
+            // Expose for debugging
             window.__db = { players, addPlayer, updatePlayer, deletePlayer, resetDatabase };
 
         })();
